@@ -85,6 +85,12 @@ public class Day6 {
         q.enqueue(c[1]);
         q.enqueue(c[2]);
     }
+    private static void iniQueuePART2(Queue<Character> q, char[] c){
+        q.clear();
+        for(int i = 0; i< 13; i++){
+            q.enqueue(c[i]);
+        }
+    }
 
     private static void leerFichero(String n){
         Path fichero = Path.of(n);
@@ -92,8 +98,13 @@ public class Day6 {
             LinkedQueue<Character> cola = new LinkedQueue<>();
             for(String linea : Files.readAllLines(fichero)){
                 char[] caracteres = linea.toCharArray();
-                iniQueue(cola, caracteres);
-                int i = 3;
+
+                //iniQueue(cola,caracteres);            <----- PART 1
+                //int i = 3;                            <----- PART 2
+
+                iniQueuePART2(cola, caracteres);
+                int i = 13;
+
                 boolean marker = false, rep;
                 while(!marker && i < linea.length()){
                     System.out.println(i);
@@ -120,17 +131,8 @@ public class Day6 {
         }
     }
     public static void main(String[] args) {
-        leerFichero("potato.txt");
+        leerFichero("day6.txt");
         System.out.println(indexMarker);
-    /*
-        LinkedQueue<Integer> prueba = new LinkedQueue<>();
-        prueba.enqueue(1);
-        prueba.enqueue(4);
-        prueba.enqueue(2);
-        prueba.enqueue(6);
-        prueba.enqueue(2);
-        System.out.println(prueba.contElem(2, prueba.top));
-*/
     }
 
 }
