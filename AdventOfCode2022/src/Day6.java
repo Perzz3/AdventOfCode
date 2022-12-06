@@ -100,7 +100,7 @@ public class Day6 {
                 char[] caracteres = linea.toCharArray();
 
                 //iniQueue(cola,caracteres);            <----- PART 1
-                //int i = 3;                            <----- PART 2
+                //int i = 3;                            <----- PART 1
 
                 iniQueuePART2(cola, caracteres);
                 int i = 13;
@@ -111,12 +111,12 @@ public class Day6 {
                     int j = 0;
                     rep = false;
                     cola.enqueue(caracteres[i]);
-                    System.out.println(cola.toString());
+                   // System.out.println(cola.toString());
                     while(j<=i && !rep){
                         rep = cola.contElem(caracteres[j], cola.top) > 1;
                         j++;
                     }
-                    System.out.println(rep + "↑");
+                   // System.out.println(rep + "↑");
                     if(rep){
                         i++;
                         cola.dequeue();
