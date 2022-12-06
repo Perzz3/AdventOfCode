@@ -56,13 +56,26 @@ public class Day6 {
         public void clear() {
             top = null;
         }
-        public boolean isElemRep(T x, Node<T> node){
+        public int contElem(T x, Node<T> node){
             if(node == null){
-                return false;
+                return 0;
             }else if(node.elem == x) {
-                return true;
+                return 1 + contElem(x, node.next);
             }else{
-                return isElemRep(x, node.next);
+                return contElem(x, node.next);
+            }
+        }
+
+        public String toString() {
+            String res = "STACK = { ";
+            return REC(top, res) + "}";
+        }
+        private String REC(Node<T> node, String s){
+            if(node != null){
+                String res = s + node.elem + ", ";
+                return REC(node.next, res);
+            }else{
+                return s;
             }
         }
     }
@@ -83,21 +96,24 @@ public class Day6 {
                 int i = 3;
                 boolean marker = false, rep;
                 while(!marker && i < linea.length()){
+                    System.out.println(i);
                     int j = 0;
                     rep = false;
                     cola.enqueue(caracteres[i]);
+                    System.out.println(cola.toString());
                     while(j<=i && !rep){
-                        rep = cola.isElemRep(caracteres[j], cola.top);
+                        rep = cola.contElem(caracteres[j], cola.top) > 1;
                         j++;
                     }
-                    if(!rep){
+                    System.out.println(rep + "↑");
+                    if(rep){
                         i++;
                         cola.dequeue();
                     }else{
                         marker = true;
                     }
                 }
-                if( i <= linea.length())indexMarker += i;;
+                if( i <= linea.length()) indexMarker += i+1;;
             }
         }catch (IOException e){
             System.err.println("CACHUETE");
@@ -105,5 +121,16 @@ public class Day6 {
     }
     public static void main(String[] args) {
         leerFichero("potato.txt");
+        System.out.println(indexMarker);
+    /*
+        LinkedQueue<Integer> prueba = new LinkedQueue<>();
+        prueba.enqueue(1);
+        prueba.enqueue(4);
+        prueba.enqueue(2);
+        prueba.enqueue(6);
+        prueba.enqueue(2);
+        System.out.println(prueba.contElem(2, prueba.top));
+*/
     }
+
 }
