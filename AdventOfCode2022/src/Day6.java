@@ -3,6 +3,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class Day6 {
+
+    private static int indexMarker;
     static private class Node<T> {
         T elem;
         Node<T> next;
@@ -54,19 +56,54 @@ public class Day6 {
         public void clear() {
             top = null;
         }
+        public boolean isElemRep(T x, Node<T> node){
+            if(node == null){
+                return false;
+            }else if(node.elem == x) {
+                return true;
+            }else{
+                return isElemRep(x, node.next);
+            }
+        }
+    }
+    private static void iniQueue(Queue<Character> q, char[] c){
+        q.clear();
+        q.enqueue(c[0]);
+        q.enqueue(c[1]);
+        q.enqueue(c[2]);
     }
 
     private static void leerFichero(String n){
         Path fichero = Path.of(n);
         try{
+            LinkedQueue<Character> cola = new LinkedQueue<>();
             for(String linea : Files.readAllLines(fichero)){
-
+                char[] caracteres = linea.toCharArray();
+                iniQueue(cola, caracteres);
+                int i = 3;
+                boolean marker = false, rep;
+                while(!marker && i < linea.length()){
+                    int j = 0;
+                    rep = false;
+                    cola.enqueue(caracteres[i]);
+                    while(j<=i && !rep){
+                        rep = cola.isElemRep(caracteres[j], cola.top);
+                        j++;
+                    }
+                    if(!rep){
+                        i++;
+                        cola.dequeue();
+                    }else{
+                        marker = true;
+                    }
+                }
+                if( i <= linea.length())indexMarker += i;;
             }
         }catch (IOException e){
             System.err.println("CACHUETE");
         }
     }
     public static void main(String[] args) {
-
+        leerFichero("potato.txt");
     }
 }
